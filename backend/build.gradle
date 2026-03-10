@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.opengartic'
+version = '1.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.postgresql:postgresql:42.7.3'
+    implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+    implementation 'org.hibernate.orm:hibernate-core:6.5.2.Final'
+    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+}
+
+application {
+    mainClass = 'com.opengartic.Main'
+}
