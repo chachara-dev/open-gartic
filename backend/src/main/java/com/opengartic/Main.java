@@ -24,7 +24,7 @@ public class Main {
         session.persist(j3);
 
         session.getTransaction().commit();
-        System.out.println("✅ CREATE: 3 jugadores agregados!");
+        System.out.println("CREATE: 3 jugadores agregados!");
 
         // =====================
         // READ - Leer jugador 3
@@ -34,7 +34,7 @@ public class Main {
         Jugador jugadorLeido = session.get(Jugador.class, j3.getIdJugador());
 
         if (jugadorLeido != null) {
-            System.out.println("✅ READ: Jugador 3 encontrado:");
+            System.out.println("READ: Jugador 3 encontrado:");
             System.out.println("   - ID: " + jugadorLeido.getIdJugador());
             System.out.println("   - Nickname: " + jugadorLeido.getNickname());
             System.out.println("   - Es host: " + jugadorLeido.getEsHost());
@@ -53,7 +53,7 @@ public class Main {
             jugadorActualizar.setNickname("JorgeActualizado");
             jugadorActualizar.setEsHost(false);
             session.merge(jugadorActualizar);
-            System.out.println("✅ UPDATE: Jugador 1 modificado!");
+            System.out.println("UPDATE: Jugador 1 modificado!");
             System.out.println("   - Nuevo nickname: " + jugadorActualizar.getNickname());
         }
 
@@ -68,12 +68,12 @@ public class Main {
 
         if (jugadorEliminar != null) {
             session.remove(jugadorEliminar);
-            System.out.println("✅ DELETE: Jugador 2 (Ana) eliminado!");
+            System.out.println("DELETE: Jugador 2 (Ana) eliminado!");
         }
 
         session.getTransaction().commit();
 
         session.close();
-        System.out.println("🏁 CRUD completado!");
+        System.out.println("CRUD completado!");
     }
 }
