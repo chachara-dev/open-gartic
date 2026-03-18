@@ -50,4 +50,11 @@ public class Jugador {
     public Boolean getEsHost() {
         return esHost;
     }
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setEsHost(Boolean esHost) {
+        this.esHost = esHost;
+    }
 }

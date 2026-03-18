@@ -1,4 +1,4 @@
-# Variables de entorno (credenciales) - NUNCA subir a GitHub
+# Variables de entorno (credenciales)
 .env
 
 # Logs de Java
