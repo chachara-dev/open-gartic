@@ -40,6 +40,8 @@ body {
     border: 6px solid #000000;
     box-shadow: 0 10px 0 var(--card-border), 0 10px 0 6px #000000;
     animation: pop-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
 }
 
 .avatar-selection p {
@@ -50,7 +52,7 @@ body {
     text-shadow: 2px 2px 0px #000000;
 }
 
-#avatar-display {
+#avatar-display, .avatar-static {
     font-size: 70px;
     background: var(--text-white);
     width: 110px;
@@ -62,6 +64,9 @@ body {
     justify-content: center;
     border: 5px solid #000000;
     box-shadow: 0 5px 0 rgba(0,0,0,0.2);
+}
+
+#avatar-display {
     cursor: pointer;
     transition: transform 0.2s;
 }
@@ -75,7 +80,9 @@ body {
     100% { transform: scale(1); opacity: 1; }
 }
 
-input:focus ~ .avatar-selection #avatar-display {
+/* Efecto focus mejorado para cuando se escribe en cualquier input */
+.view-section:focus-within #avatar-display, 
+.view-section:focus-within .avatar-static {
     transform: scale(1.1) rotate(5deg);
     border-color: var(--btn-yellow);
 }
@@ -83,7 +90,7 @@ input:focus ~ .avatar-selection #avatar-display {
 input {
     width: 100%;
     padding: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     border-radius: 15px;
     border: 4px solid #000000;
     font-size: 1.2rem;
@@ -109,6 +116,7 @@ button {
     cursor: pointer;
     box-shadow: 0 8px 0 var(--btn-shadow), 0 8px 0 4px #000000;
     transition: transform 0.1s, box-shadow 0.1s;
+    margin-bottom: 15px;
 }
 
 button:active {
@@ -116,6 +124,37 @@ button:active {
     box-shadow: 0 2px 0 var(--btn-shadow), 0 2px 0 4px #000000;
 }
 
+/* --- NUEVAS CLASES PARA LAS VISTAS --- */
+.hidden {
+    display: none;
+}
+
+.view-section {
+    animation: fade-in 0.3s ease-out;
+}
+
+@keyframes fade-in {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.toggle-links p {
+    color: var(--text-white);
+    font-size: 1rem;
+    margin: 8px 0 0 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: all 0.2s;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.3);
+}
+
+.toggle-links p:hover {
+    color: var(--btn-yellow);
+    text-decoration-color: var(--btn-yellow);
+}
+
+/* --- DOODLES --- */
 .doodle {
     position: fixed;
     top: -100px; 
@@ -126,14 +165,9 @@ button:active {
 }
 
 @keyframes fall {
-    0% {
-        transform: translateY(-10px) rotate(0deg);
-    }
-    100% {
-        transform: translateY(110vh) rotate(360deg);
-    }
+    0% { transform: translateY(-10px) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(360deg); }
 }
-
 
 .d1 { left: 10%; animation-duration: 12s; animation-delay: 0s; font-size: 3rem; }
 .d2 { left: 25%; animation-duration: 15s; animation-delay: 4s; font-size: 2rem; }

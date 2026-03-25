@@ -1,3 +1,4 @@
+//Este código por el momento es usado como ejemplo para la creación de jugadores, pero no se ha integrado completamente con el resto del sistema. Se planea usarlo para manejar la lógica de los jugadores dentro de las salas, incluyendo su creación, actualización y eliminación.
 package com.opengartic;
 
 import jakarta.persistence.*;

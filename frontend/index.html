@@ -13,22 +13,62 @@
     <div class="doodle d4">💡</div>
     <div class="doodle d5">😂</div>
     <div class="doodle d6">🎲</div>
-    <!-- Talvez lo cambie a algo mas bonito -->
      
     <div class="login-container">
         <header class="logo">
-            <h1>CHÁCHARA</h1> <!-- Falta el logo oficial   -->
+            <h1>CHÁCHARA</h1>
         </header>
         
         <div class="card">
-            <div class="avatar-selection">
-                <div id="avatar-display">🎨</div>
-                <p>Elige tu avatar</p>
+            <div id="view-guest" class="view-section">
+                <div class="avatar-selection">
+                    <div id="avatar-display">🎨</div>
+                    <p>Elige tu avatar</p>
+                </div>
+
+                <input type="text" id="username" placeholder="Escribe tu apodo..." maxlength="15" autocomplete="off">
+                
+                <button id="btn-play">¡A JUGAR!</button>
+                
+                <div class="toggle-links">
+                    <p onclick="switchView('view-login')">¿Ya tienes cuenta? Inicia sesión</p>
+                </div>
             </div>
 
-            <input type="text" id="username" placeholder="Escribe tu apodo..." maxlength="15" autocomplete="off">
-            
-            <button id="btn-play">¡A JUGAR!</button>
+            <div id="view-login" class="view-section hidden">
+                <div class="avatar-selection">
+                    <div class="avatar-static">👋</div>
+                    <p>Bienvenido de vuelta</p>
+                </div>
+
+                <input type="email" id="login-email" placeholder="Correo electrónico" autocomplete="off">
+                <input type="password" id="login-pass" placeholder="Contraseña">
+                
+                <button id="btn-login">ENTRAR</button>
+                
+                <div class="toggle-links">
+                    <p onclick="switchView('view-register')">¿No tienes cuenta? Regístrate</p>
+                    <p onclick="switchView('view-guest')">Jugar como invitado</p>
+                </div>
+            </div>
+
+            <div id="view-register" class="view-section hidden">
+                <div class="avatar-selection">
+                    <div class="avatar-static">✨</div>
+                    <p>Crea tu cuenta</p>
+                </div>
+
+                <input type="text" id="reg-username" placeholder="Nombre de usuario" maxlength="15" autocomplete="off">
+                <input type="email" id="reg-email" placeholder="Correo electrónico" autocomplete="off">
+                <input type="password" id="reg-pass" placeholder="Contraseña">
+                
+                <button id="btn-register">REGISTRARSE</button>
+                
+                <div class="toggle-links">
+                    <p onclick="switchView('view-login')">¿Ya tienes cuenta? Inicia sesión</p>
+                    <p onclick="switchView('view-guest')">Jugar como invitado</p>
+                </div>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
