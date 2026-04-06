@@ -5,3 +5,6 @@
 *IDS 6to Semestre*
 
 Este proyecto busca realizar un **juego online** interactivo inspirado por el juego de mesa *Pictionary* en donde un grupo de personas intentan dibujar la oración o palabra dada.
+
+**Wireframe figma**
+https://www.figma.com/design/OxoXIyyLhqYFzbslmWAqEf/Wireframes-chachara?m=auto&t=ZrASgsQhgq7emuHd-6
