@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cháchara - Sala de Juego</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <h1>¡Bienvenido a Cháchara!</h1>
+        <p id="welcome-message">El juego está en desarrollo. Pronto podrás dibujar y adivinar palabras aquí.</p>
+        <button id="btn-back">Volver al Inicio</button>
+    </div>
+
+    <script>
+        // Obtener el nombre del usuario desde la URL o localStorage
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('username') || localStorage.getItem('username') || 'Invitado';
+
+        document.getElementById('welcome-message').textContent = `¡Hola, ${username}! El juego está en desarrollo. Pronto podrás dibujar y adivinar palabras aquí.`;
+
+        document.getElementById('btn-back').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
