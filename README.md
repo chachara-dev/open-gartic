@@ -13,6 +13,48 @@ Cháchara es un juego multijugador en línea inspirado en _Pictionary_, donde lo
 Entre las funcionalidades proyectadas se encuentran: salas de juego con código de acceso, dibujo colaborativo en tiempo real, y selección de avatar personalizable.
 
 ---
+## Cómo ejecutar el proyecto localmente
+
+### Prerrequisitos
+- Java 21 instalado
+- Gradle (viene incluido en el proyecto con gradlew)
+
+### Pasos para ejecutar
+1. **Configurar la base de datos:**
+   
+   Por defecto, el proyecto usa H2 (base de datos en memoria) para desarrollo local, por lo que no necesitas instalar PostgreSQL.
+   
+   Si deseas usar PostgreSQL, instala PostgreSQL y crea una base de datos. Luego, crea un archivo `.env` en la carpeta `backend/` con:
+   
+   ```
+   DB_URL=jdbc:postgresql://localhost:5432/chachara
+   DB_USER=tu_usuario_postgres
+   DB_PASSWORD=tu_password_postgres
+   DB_DRIVER=org.postgresql.Driver
+   DB_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+   ```
+   
+   Reemplaza con tus credenciales.
+
+2. **Ejecutar el backend:**
+   
+   Abre una terminal en la carpeta `backend` y ejecuta:
+   
+   ```bash
+   ./gradlew bootRun
+   ```
+   
+   En Windows, usa `gradlew.bat bootRun`.
+   
+   El servidor se iniciará en `http://localhost:8081`.
+
+3. **Ejecutar el frontend:**
+   
+   Abre el archivo `frontend/index.html` en tu navegador web.
+   
+   El frontend se conectará automáticamente al backend en `localhost:8081`.
+
+---
 ## Herramientas utilizadas
 ###  Frontend
 | Tecnología | Descripción |
