@@ -22,9 +22,9 @@ Entre las funcionalidades proyectadas se encuentran: salas de juego con código 
 ### Pasos para ejecutar
 1. **Configurar la base de datos:**
    
-   Por defecto, el proyecto usa H2 (base de datos en memoria) para desarrollo local, por lo que no necesitas instalar PostgreSQL.
+   Por defecto, el proyecto usa AWS (base de datos en la nube) por lo que no necesitas instalar PostgreSQL.
    
-   Si deseas usar PostgreSQL, instala PostgreSQL y crea una base de datos. Luego, crea un archivo `.env` en la carpeta `backend/`, puedes basarte en el [`.env.example`](https://github.com/chachara-dev/open-gartic/blob/dev/backend/.env.example).
+   Deberas crear un archivo `.env` en la carpeta `backend/`, puedes basarte en el [`.env.example`](https://github.com/chachara-dev/open-gartic/blob/dev/backend/.env.example).
 
 2. **Ejecutar el backend:**
    
