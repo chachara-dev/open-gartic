@@ -24,33 +24,21 @@ Entre las funcionalidades proyectadas se encuentran: salas de juego con código 
    
    Por defecto, el proyecto usa H2 (base de datos en memoria) para desarrollo local, por lo que no necesitas instalar PostgreSQL.
    
-   Si deseas usar PostgreSQL, instala PostgreSQL y crea una base de datos. Luego, crea un archivo `.env` en la carpeta `backend/` con:
-   
-   ```
-   DB_URL=jdbc:postgresql://localhost:5432/chachara
-   DB_USER=tu_usuario_postgres
-   DB_PASSWORD=tu_password_postgres
-   DB_DRIVER=org.postgresql.Driver
-   DB_DIALECT=org.hibernate.dialect.PostgreSQLDialect
-   ```
-   
-   Reemplaza con tus credenciales.
+   Si deseas usar PostgreSQL, instala PostgreSQL y crea una base de datos. Luego, crea un archivo `.env` en la carpeta `backend/`, puedes basarte en el [`.env.example`](https://github.com/chachara-dev/open-gartic/blob/dev/backend/.env.example).
 
 2. **Ejecutar el backend:**
    
    Abre una terminal en la carpeta `backend` y ejecuta:
    
    ```bash
-   ./gradlew bootRun
+   .\gradlew bootRun
    ```
-   
-   En Windows, usa `gradlew.bat bootRun`.
-   
+
    El servidor se iniciará en `http://localhost:8081`.
 
 3. **Ejecutar el frontend:**
    
-   Abre el archivo `frontend/index.html` en tu navegador web.
+   Abre el archivo [`frontend/index.html`](https://github.com/chachara-dev/open-gartic/blob/dev/frontend/index.html) en tu navegador web.
    
    El frontend se conectará automáticamente al backend en `localhost:8081`.
 
