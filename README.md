@@ -13,6 +13,36 @@ Cháchara es un juego multijugador en línea inspirado en _Pictionary_, donde lo
 Entre las funcionalidades proyectadas se encuentran: salas de juego con código de acceso, dibujo colaborativo en tiempo real, y selección de avatar personalizable.
 
 ---
+## Cómo ejecutar el proyecto localmente
+
+### Prerrequisitos
+- Java 21 instalado
+- Gradle (viene incluido en el proyecto con gradlew)
+
+### Pasos para ejecutar
+1. **Configurar la base de datos:**
+   
+   Por defecto, el proyecto usa AWS (base de datos en la nube) por lo que no necesitas instalar PostgreSQL.
+   
+   Deberas crear un archivo `.env` en la carpeta `backend/`, puedes basarte en el [`.env.example`](https://github.com/chachara-dev/open-gartic/blob/dev/backend/.env.example).
+
+2. **Ejecutar el backend:**
+   
+   Abre una terminal en la carpeta `backend` y ejecuta:
+   
+   ```bash
+   .\gradlew bootRun
+   ```
+
+   El servidor se iniciará en `http://localhost:8081`.
+
+3. **Ejecutar el frontend:**
+   
+   Abre el archivo [`frontend/index.html`](https://github.com/chachara-dev/open-gartic/blob/dev/frontend/index.html) en tu navegador web.
+   
+   El frontend se conectará automáticamente al backend en `localhost:8081`.
+
+---
 ## Herramientas utilizadas
 ###  Frontend
 | Tecnología | Descripción |

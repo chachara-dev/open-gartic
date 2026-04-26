@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/api/cuentas";
+const API_URL = "http://localhost:8081/api/cuentas";
 
 // Función para cambiar entre las vistas (Invitado, Login, Registro)
 function switchView(viewId) {
@@ -15,7 +15,8 @@ document.getElementById('btn-play').addEventListener('click', () => {
         alert("Necesitas escribir un apodo para jugar.");
     } else {
         console.log("Jugando como invitado:", username);
-        // Aquí podrías redirigir a la sala de juego: window.location.href = "game.html";
+        // Redirigir a la sala de juego
+        window.location.href = `game.html?username=${encodeURIComponent(username)}`;
     }
 });
 
@@ -37,7 +38,9 @@ document.getElementById('btn-login').addEventListener('click', async () => {
 
         if (response.ok) {
             alert(mensaje); // "¡Bienvenido, Usuario!"
-            // Aquí guardas la sesión si quieres y rediriges
+            // Guardar sesión y redirigir
+            localStorage.setItem('username', email); // O extraer del mensaje
+            window.location.href = 'game.html';
         } else {
             alert("Error: " + mensaje);
         }
