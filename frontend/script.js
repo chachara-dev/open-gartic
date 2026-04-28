@@ -3,7 +3,7 @@
 //  Agrega o quita rutas aquí cuando añadas imágenes a /imagenes/
 // =============================================================
 const AVATARES = [
-    "/Imagenes Chachara/Ideas de Logos/Logo Chachara.png",
+    "Imagenes Chachara/Ideas de Logos/Logo Chachara.png",
 ];
 
 const AVATAR_DEFAULT = AVATARES[0];
@@ -93,7 +93,7 @@ document.getElementById('btn-play').addEventListener('click', () => {
 // =============================================================
 //  2. Iniciar sesión
 // =============================================================
-const API_URL = "http://localhost:8081/api/cuentas";
+const API_URL = "http://localhost:8080/api/cuentas";
 
 document.getElementById('btn-login').addEventListener('click', async () => {
     const email = document.getElementById('login-email').value.trim();
@@ -154,6 +154,6 @@ document.getElementById('btn-register').addEventListener('click', async () => {
             alert(mensaje);
         }
     } catch (error) {
-        alert("Error de conexión. Revisa que el servidor esté en el puerto 8081.");
+        alert("Error de conexión. Revisa que el servidor esté en el puerto 8080.");
     }
 });

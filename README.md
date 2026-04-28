@@ -34,13 +34,13 @@ Entre las funcionalidades proyectadas se encuentran: salas de juego con código 
    .\gradlew bootRun
    ```
 
-   El servidor se iniciará en `http://localhost:8081`.
+   El servidor se iniciará en `http://localhost:8080`.
 
 3. **Ejecutar el frontend:**
    
    Abre el archivo [`frontend/index.html`](https://github.com/chachara-dev/open-gartic/blob/dev/frontend/index.html) en tu navegador web.
    
-   El frontend se conectará automáticamente al backend en `localhost:8081`.
+   El frontend se conectará automáticamente al backend en `localhost:8080`.
 
 ---
 ## Herramientas utilizadas
