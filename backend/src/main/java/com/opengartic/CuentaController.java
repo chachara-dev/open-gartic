@@ -19,6 +19,20 @@ public class CuentaController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    // ── Utilidad: extrae solo el nombre de archivo de cualquier ruta ──
+    // Ejemplo: "Imagenes Chachara/Ideas de Logos/Logo Chachara.png" → "Logo Chachara.png"
+    // Ejemplo: "/imagenes/avatar_01.png" → "avatar_01.png"
+    // Ejemplo: "avatar_01.png" → "avatar_01.png"  (ya está limpio)
+    private String normalizarAvatar(String rutaAvatar) {
+        if (rutaAvatar == null || rutaAvatar.isBlank()) {
+            return "avatar_01.png";
+        }
+        // Tomamos solo el último segmento después de / o \
+        String[] partesSlash     = rutaAvatar.replace("\\", "/").split("/");
+        String nombreArchivo = partesSlash[partesSlash.length - 1].trim();
+        return nombreArchivo.isBlank() ? "avatar_01.png" : nombreArchivo;
+    }
+
     @PostMapping("/registro")
     public ResponseEntity<String> registrarCuenta(@RequestBody Cuenta nuevaCuenta) {
         if (cuentaRepository.findByCorreo(nuevaCuenta.getCorreo()).isPresent()) {
@@ -32,17 +46,15 @@ public class CuentaController {
         String passEncriptada = passwordEncoder.encode(nuevaCuenta.getContrasena());
         nuevaCuenta.setContrasena(passEncriptada);
 
-        // Avatar por defecto si el frontend no envía ninguno
-        if (nuevaCuenta.getAvatar() == null || nuevaCuenta.getAvatar().isBlank()) {
-            nuevaCuenta.setAvatar("/imagenes/avatar_01.png");
-        }
+        // FIX: normalizar el avatar que manda el frontend (puede venir como ruta relativa local)
+        // En BD guardamos solo el nombre del archivo, ej: "Logo Chachara.png" o "avatar_01.png"
+        String avatarNormalizado = normalizarAvatar(nuevaCuenta.getAvatar());
+        nuevaCuenta.setAvatar(avatarNormalizado);
 
         cuentaRepository.save(nuevaCuenta);
         return ResponseEntity.ok("Cuenta creada exitosamente.");
     }
 
-    // Devuelve JSON con { mensaje, nombreUsuario, avatar }
-    // para que el frontend pueda mostrar el recuadro del jugador en game.html
     @PostMapping("/login")
     public ResponseEntity<?> iniciarSesion(@RequestBody Cuenta credenciales) {
         Optional<Cuenta> cuentaOpt = cuentaRepository.findByCorreo(credenciales.getCorreo());
@@ -51,15 +63,18 @@ public class CuentaController {
             Cuenta cuenta = cuentaOpt.get();
             if (passwordEncoder.matches(credenciales.getContrasena(), cuenta.getContrasena())) {
 
-                // Fallback por si alguna cuenta antigua no tiene avatar asignado
-                String avatarPath = (cuenta.getAvatar() != null && !cuenta.getAvatar().isBlank())
-                        ? cuenta.getAvatar()
-                        : "/imagenes/avatar_01.png";
+                // FIX: construir la URL del avatar de forma consistente.
+                // En BD tenemos solo el nombre del archivo (ej: "Logo Chachara.png")
+                // El frontend lo busca en la carpeta "Imagenes Chachara/Ideas de Logos/"
+                String avatarGuardado = cuenta.getAvatar();
+                String avatarNombre = (avatarGuardado != null && !avatarGuardado.isBlank())
+                        ? avatarGuardado
+                        : "avatar_01.png";
 
                 Map<String, String> respuesta = new HashMap<>();
                 respuesta.put("mensaje",       "¡Bienvenido, " + cuenta.getNombreUsuario() + "!");
                 respuesta.put("nombreUsuario", cuenta.getNombreUsuario());
-                respuesta.put("avatarUrl",     avatarPath);   // clave que espera script.js
+                respuesta.put("avatarNombre",  avatarNombre);  // solo el nombre del archivo
 
                 return ResponseEntity.ok(respuesta);
             }

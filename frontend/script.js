@@ -8,11 +8,16 @@ const AVATARES = [
 
 const AVATAR_DEFAULT = AVATARES[0];
 
+// FIX: carpeta donde viven los avatares en el frontend.
+// El backend solo guarda el nombre del archivo (ej: "Logo Chachara.png"),
+// y el frontend reconstruye la ruta completa con este prefijo.
+const AVATAR_FOLDER = "Imagenes Chachara/Ideas de Logos/";
+
 // =============================================================
 //  Estado: avatar actualmente seleccionado en cada vista
 // =============================================================
-let guestAvatarUrl = AVATAR_DEFAULT;
-let regAvatarUrl   = AVATAR_DEFAULT;
+let guestAvatarPath = AVATAR_DEFAULT;
+let regAvatarPath   = AVATAR_DEFAULT;
 
 // =============================================================
 //  Construcción del grid de avatares
@@ -56,13 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
     buildAvatarPicker(
         document.getElementById('guest-avatar-picker'),
         document.getElementById('avatar-display'),
-        (path) => { guestAvatarUrl = path; }
+        (path) => { guestAvatarPath = path; }
     );
 
     buildAvatarPicker(
         document.getElementById('reg-avatar-picker'),
         document.getElementById('reg-avatar-display'),
-        (path) => { regAvatarUrl = path; }
+        (path) => { regAvatarPath = path; }
     );
 });
 
@@ -85,8 +90,14 @@ document.getElementById('btn-play').addEventListener('click', () => {
         alert("Necesitas escribir un apodo para jugar.");
         return;
     }
-    localStorage.setItem('username',  username);
-    localStorage.setItem('avatarUrl', guestAvatarUrl);
+
+    // Limpiar sesión anterior de cuenta registrada
+    localStorage.removeItem('avatarNombre');
+
+    localStorage.setItem('username',   username);
+    localStorage.setItem('isGuest',    'true');
+    localStorage.setItem('avatarPath', guestAvatarPath);  // ruta local completa
+
     window.location.href = 'game.html?username=' + encodeURIComponent(username);
 });
 
@@ -111,8 +122,16 @@ document.getElementById('btn-login').addEventListener('click', async () => {
         if (response.ok) {
             const data = await response.json();
             alert(data.mensaje);
-            localStorage.setItem('username',  data.nombreUsuario);
-            localStorage.setItem('avatarUrl', data.avatarUrl);
+
+            // Limpiar estado de invitado
+            localStorage.removeItem('isGuest');
+
+            localStorage.setItem('username',     data.nombreUsuario);
+            // FIX: el backend manda solo el nombre del archivo ("Logo Chachara.png")
+            // Reconstruimos la ruta completa con el prefijo de carpeta
+            localStorage.setItem('avatarNombre', data.avatarNombre);
+            localStorage.setItem('avatarPath',   AVATAR_FOLDER + data.avatarNombre);
+
             window.location.href = 'game.html';
         } else {
             const errorMsg = await response.text();
@@ -141,7 +160,7 @@ document.getElementById('btn-register').addEventListener('click', async () => {
                 nombreUsuario: username,
                 correo:        email,
                 contrasena:    pass,
-                avatarUrl:     regAvatarUrl
+                avatar:        regAvatarPath   // FIX: campo "avatar", el backend normaliza la ruta
             })
         });
 
