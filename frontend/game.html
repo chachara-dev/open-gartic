@@ -5,24 +5,166 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cháchara - Sala de Juego</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* ── Contenedor principal de la sala ── */
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #game-container h1 {
+            color: var(--btn-yellow);
+            font-size: 2.8rem;
+            text-shadow: 3px 3px 0px #000;
+            margin-bottom: 10px;
+        }
+
+        #welcome-message {
+            color: var(--text-white);
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 0 #000;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        #btn-back {
+            width: auto;
+            padding: 12px 30px;
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+        }
+
+        /* ── Recuadro de jugador ── */
+        #player-card {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            background: var(--card-blue);
+            border: 4px solid #000;
+            border-radius: 20px;
+            padding: 12px 22px;
+            box-shadow: 0 6px 0 var(--card-border), 0 6px 0 4px #000;
+
+            animation: slide-up 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+            white-space: nowrap;
+        }
+
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateX(-50%) translateY(40px); }
+            to   { opacity: 1; transform: translateX(-50%) translateY(0);    }
+        }
+
+        /* Avatar dentro del recuadro */
+        #player-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 3px solid #000;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;        /* tamaño del emoji de invitado */
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 3px 0 rgba(0,0,0,0.25);
+        }
+
+        /* Si el avatar es una <img> (usuario con cuenta) */
+        #player-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* Textos del recuadro */
+        #player-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        #player-label {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #player-name {
+            color: var(--btn-yellow);
+            font-size: 1.3rem;
+            text-shadow: 1px 1px 0 #000;
+        }
+    </style>
 </head>
 <body>
+
     <div id="game-container">
         <h1>¡Bienvenido a Cháchara!</h1>
         <p id="welcome-message">El juego está en desarrollo. Pronto podrás dibujar y adivinar palabras aquí.</p>
         <button id="btn-back">Volver al Inicio</button>
     </div>
 
+    <!-- Recuadro fijo en la parte inferior con nombre y avatar del jugador -->
+    <div id="player-card">
+        <div id="player-avatar">🎨</div>
+        <div id="player-info">
+            <span id="player-label">Jugando como</span>
+            <span id="player-name">Invitado</span>
+        </div>
+    </div>
+
     <script>
-        // Obtener el nombre del usuario desde la URL o localStorage
-        const urlParams = new URLSearchParams(window.location.search);
-        const username = urlParams.get('username') || localStorage.getItem('username') || 'Invitado';
+        // ── Leer datos guardados en localStorage (login o invitado) ──
+        const urlParams  = new URLSearchParams(window.location.search);
+        const username   = urlParams.get('username') || localStorage.getItem('username') || 'Invitado';
+        const avatarUrl  = localStorage.getItem('avatarUrl')   || '';   // path de BD, ej: /imagenes/avatar_01.png
+        const avatarEmoji = localStorage.getItem('avatarEmoji') || '🎨'; // fallback para invitados
 
-        document.getElementById('welcome-message').textContent = `¡Hola, ${username}! El juego está en desarrollo. Pronto podrás dibujar y adivinar palabras aquí.`;
+        // Actualizar mensaje de bienvenida
+        document.getElementById('welcome-message').textContent =
+            `¡Hola, ${username}! El juego está en desarrollo. Pronto podrás dibujar y adivinar palabras aquí.`;
 
+        // Actualizar nombre en el recuadro
+        document.getElementById('player-name').textContent = username;
+
+        // Mostrar avatar: imagen de BD si existe, emoji si es invitado
+        const avatarEl = document.getElementById('player-avatar');
+        if (avatarUrl && avatarUrl.trim() !== '') {
+            // Usuario con cuenta — cargamos la imagen desde el servidor
+            const img = document.createElement('img');
+            img.src = avatarUrl;                     // ej: /imagenes/avatar_01.png
+            img.alt = username;
+            img.onerror = () => {
+                // Si la imagen no carga (ruta incorrecta / archivo faltante),
+                // mostramos el emoji de respaldo
+                avatarEl.textContent = avatarEmoji;
+            };
+            avatarEl.textContent = '';
+            avatarEl.appendChild(img);
+        } else {
+            // Invitado — mostramos el emoji elegido en el lobby
+            avatarEl.textContent = avatarEmoji;
+        }
+
+        // Botón volver
         document.getElementById('btn-back').addEventListener('click', () => {
             window.location.href = 'index.html';
         });
     </script>
+
 </body>
 </html>
