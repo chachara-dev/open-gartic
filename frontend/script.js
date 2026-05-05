@@ -3,10 +3,10 @@
 //  Agrega o quita rutas aquí cuando añadas imágenes a /imagenes/
 // =============================================================
 const AVATARES = [
-    "Imagenes Chachara/Ideas de Logos/Logo Chachara.png",
-    "Imagenes Chachara/Ideas de Logos/Chachara Logo Concepto 1.png",
-    "Imagenes Chachara/Ideas de Logos/Chachara Logo Concepto 2.png",
-    "Imagenes Chachara/Ideas de Logos/Chachara Logo Concepto 3.png"
+    "assets/avatars/calculator.png",
+    "assets/avatars/casette.png",
+    "assets/avatars/pizza.png",
+    "assets/avatars/sun.png"
 ];
 
 const AVATAR_DEFAULT = AVATARES[0];
@@ -14,7 +14,7 @@ const AVATAR_DEFAULT = AVATARES[0];
 // FIX: carpeta donde viven los avatares en el frontend.
 // El backend solo guarda el nombre del archivo (ej: "Logo Chachara.png"),
 // y el frontend reconstruye la ruta completa con este prefijo.
-const AVATAR_FOLDER = "Imagenes Chachara/Ideas de Logos/";
+const AVATAR_FOLDER = "assets/avatars/";
 
 // =============================================================
 //  Estado: avatar actualmente seleccionado en cada vista
