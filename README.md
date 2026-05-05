@@ -6,7 +6,7 @@
 Este proyecto busca realizar un **juego online** interactivo inspirado por el juego de mesa *Pictionary* en donde un grupo de personas intentan dibujar la oración o palabra dada.
 
 <p align="center">
-<img src="frontend/Imagenes Chachara/Ideas de Logos/Logo Chachara.png" width="150" alt="Logo de Cháchara">
+<img src="frontend/assets/logos/logo.png" width="150" alt="Logo de Cháchara">
 </p>
 
 --- 
