@@ -4,6 +4,9 @@
 // =============================================================
 const AVATARES = [
     "Imagenes Chachara/Ideas de Logos/Logo Chachara.png",
+    "Imagenes Chachara/Ideas de Logos/Chachara Logo Concepto 1.png",
+    "Imagenes Chachara/Ideas de Logos/Chachara Logo Concepto 2.png",
+    "Imagenes Chachara/Ideas de Logos/Chachara Logo Concepto 3.png"
 ];
 
 const AVATAR_DEFAULT = AVATARES[0];
@@ -18,6 +21,22 @@ const AVATAR_FOLDER = "Imagenes Chachara/Ideas de Logos/";
 // =============================================================
 let guestAvatarPath = AVATAR_DEFAULT;
 let regAvatarPath   = AVATAR_DEFAULT;
+
+
+// =============================================================
+//  Validaciones (Correo y Contraseña)
+// =============================================================
+function validarCorreo(correo) {
+    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regexCorreo.test(correo);
+}
+
+function validarContrasena(contrasena) {
+    // Mínimo 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y 1 carácter especial
+    const regexContrasena = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regexContrasena.test(contrasena);
+}
+
 
 // =============================================================
 //  Construcción del grid de avatares
@@ -105,6 +124,7 @@ document.getElementById('btn-play').addEventListener('click', () => {
 //  2. Iniciar sesión
 // =============================================================
 const API_URL = "http://localhost:8080/api/cuentas";
+const SALAS_API_URL = "http://localhost:8080/api/salas";
 
 document.getElementById('btn-login').addEventListener('click', async () => {
     const email = document.getElementById('login-email').value.trim();
@@ -126,13 +146,36 @@ document.getElementById('btn-login').addEventListener('click', async () => {
             // Limpiar estado de invitado
             localStorage.removeItem('isGuest');
 
-            localStorage.setItem('username',     data.nombreUsuario);
-            // FIX: el backend manda solo el nombre del archivo ("Logo Chachara.png")
-            // Reconstruimos la ruta completa con el prefijo de carpeta
-            localStorage.setItem('avatarNombre', data.avatarNombre);
-            localStorage.setItem('avatarPath',   AVATAR_FOLDER + data.avatarNombre);
+            const avatarNombre = data.avatarNombre || 'avatar_01.png';
+            const avatarPath = AVATAR_FOLDER + avatarNombre;
 
-            window.location.href = 'game.html';
+            localStorage.setItem('username', data.nombreUsuario);
+            localStorage.setItem('avatarNombre', avatarNombre);
+            localStorage.setItem('avatarPath', avatarPath);
+
+            const crearSalaResponse = await fetch(SALAS_API_URL + '/crear', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nickname: data.nombreUsuario,
+                    avatarUrl: avatarPath,
+                    idCuenta: data.idCuenta || ''
+                })
+            });
+
+            if (!crearSalaResponse.ok) {
+                const errorMsg = await crearSalaResponse.text();
+                alert('No se pudo crear la sala: ' + errorMsg);
+                return;
+            }
+
+            const salaData = await crearSalaResponse.json();
+            localStorage.setItem('codigoSala', salaData.codigoAcceso);
+            localStorage.setItem('idJugador', salaData.idJugador);
+            localStorage.setItem('idSala', salaData.idSala);
+            localStorage.setItem('esHost', 'true');
+
+            window.location.href = 'lobby.html';
         } else {
             const errorMsg = await response.text();
             alert("Error: " + errorMsg);
@@ -150,7 +193,20 @@ document.getElementById('btn-register').addEventListener('click', async () => {
     const email    = document.getElementById('reg-email').value.trim();
     const pass     = document.getElementById('reg-pass').value.trim();
 
-    if (!username || !email || !pass) return alert("Todos los campos son obligatorios.");
+    // 1. Validar que no estén vacíos
+    if (!username || !email || !pass) {
+        return alert("Todos los campos son obligatorios.");
+    }
+
+    // 2. Validar formato de correo
+    if (!validarCorreo(email)) {
+        return alert("Por favor, ingresa un correo electrónico válido (ejemplo: usuario@correo.com).");
+    }
+
+    // 3. Validar seguridad de contraseña
+    if (!validarContrasena(pass)) {
+        return alert("La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.");
+    }
 
     try {
         const response = await fetch(API_URL + '/registro', {
